@@ -470,6 +470,19 @@
             </div>
         </div>
     </section>
+    <div>
+
+    <form action="{{ route('search') }}" method="GET">
+    <input type="text" name="search" placeholder="Search for menu items...">
+    <button type="submit">Search</button>
+    </form>
+
+
+
+
+    </div>
+
+
     <!-- ***** Chefs Area Ends ***** --> 
     
     <!-- ***** Footer Start ***** -->

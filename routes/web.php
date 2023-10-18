@@ -48,6 +48,9 @@ Route::get("/orders",[AdminController::class,"orders"]);
 
 Route::get("/redirects",[HomeController::class,"redirects"]);
 
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

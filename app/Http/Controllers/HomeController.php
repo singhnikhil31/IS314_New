@@ -133,5 +133,14 @@ class HomeController extends Controller
 
     }
 
+ 
+    public function search(Request $request) {
+    $search = $request->input('search');
+    $menuItems = Menu::where('item', 'like', '%' . $search . '%')->get();
+    return view('search_results', ['menuItems' => $menuItems, 'search' => $search]);
+}
+
+
+
 
 }
