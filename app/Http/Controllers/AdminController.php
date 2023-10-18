@@ -11,6 +11,8 @@ use App\Models\Menu;
 
 use App\Models\Feedback;
 
+use App\Models\Order;
+
 class AdminController extends Controller
 {
     public function user()
@@ -112,6 +114,11 @@ class AdminController extends Controller
         return view("admin.adminfeedback",compact("data"));
     }
 
-
+    public function orders()
+    {
+        $data = order::all();
+        return view('admin.orders', compact('data'));
+    }
+    
 
 }

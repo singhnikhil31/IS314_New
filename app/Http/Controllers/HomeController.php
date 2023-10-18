@@ -10,14 +10,27 @@ use App\Models\User;
 
 use App\Models\Menu;
 
+use App\Models\Cart;
+
+use App\Models\Order;
+
 class HomeController extends Controller
 {
     public function index()
-    {
+{
+    $data = menu::all();
 
-        $data=menu::all();
-        return view("home",compact("data"));
+    // Check if the user is logged in
+    if (Auth::check()) {
+        $user_id = Auth::id();
+        $count = cart::where('user_id', $user_id)->count();
+    } else {
+        $count = 0; // or whatever default value you want
     }
+
+    return view("home", compact("data", "count"));
+}
+
 
     public function redirects()
     {
@@ -32,18 +45,34 @@ class HomeController extends Controller
 
         else
         {
-            return view('home',compact('data'));
+
+            $user_id=Auth::id();
+            $count=cart::where('user_id' ,$user_id)->count();
+
+            return view('home',compact('data','count'));
         }
 
     }
 
 
-    public function addcart()
+    public function addcart(Request $request,$id)
     {
     
-        if ($user = Auth::user())  // Check if the user is logged in
+        if (Auth::id()) 
         {
-            // Your logic for adding to cart using $id
+           
+            $user_id=Auth::id();
+
+            $item_id=$id;
+
+            $quantity=$request->quantity;
+
+            $cart=new cart;
+
+            $cart->user_id=$user_id;
+            $cart->item_id=$item_id;
+            $cart->quantity=$quantity;
+            $cart->save();
     
             return redirect()->back();
         }
@@ -53,8 +82,56 @@ class HomeController extends Controller
         }
     }
     
+    public function showcart(Request $request,$id)
+    {
+
+        $count=cart::where('user_id',$id)->count();
+
+        $data2 = cart::select('*')->where('user_id', '=', $id)->get();
+
+        $data=cart::where('user_id',$id)->join('menus', 'carts.item_id', '=', 'menus.id')->get();
+
+        return view('showcart',compact('count','data','data2'));
+
+
+    }
     
-    
+    public function remove($id)
+    {
+
+        $data=cart::find($id);
+
+        $data->delete();
+
+        return redirect()->back();
+
+    }
+
+
+    public function orderconfirm(Request $request)
+    {
+
+        foreach($request->item as $key => $item)
+
+        {
+
+            $data=new Order;
+
+            $data->item=$item;
+            $data->price=$request->price[$key]; 
+            $data->quantity=$request->quantity[$key];
+
+            $data->name=$request->name;
+            $data->phone=$request->phone;
+            $data->seat=$request->cinema_seat;
+
+            $data->save();
+
+        }
+
+        return redirect()->back();
+
+    }
 
 
 }

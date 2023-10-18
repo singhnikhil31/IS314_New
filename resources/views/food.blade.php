@@ -17,7 +17,7 @@
 
                 @foreach($data as $data)
 
-                <form action="{{url('/addcart')}} method="post">
+                <form action="{{url('/addcart' ,$data->id)}}" method="post">
 
                 @csrf
 
@@ -28,12 +28,12 @@
                               <h1 class='title'>{{$data->item}}</h1>
                               <p class='description'>{{$data->description}}</p>
                               <div class="main-text-button">
-                                  <div class="scroll-to-section"><a href="#reservation">Make Reservation <i class="fa fa-angle-down"></i></a></div>
+                                  
                               </div>
                             </div>
                         </div>
 
-                    <input type="number" name="quantity" min="0" style="width:80px;">
+                    <input type="number" name="quantity" min="1" value="1" style="width:80px;">
                     <input type="submit" value="Add to cart">
 
                     </div>

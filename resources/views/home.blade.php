@@ -67,7 +67,27 @@
                         -->
                             <li class="scroll-to-section"><a href="#menu">Menu</a></li>
                             <li class="scroll-to-section"><a href="#reservation">Contact Us</a></li> 
-                            <li> 
+                            
+                            <li class="scroll-to-section" style="background-color: red"><a href="#menu"> 
+                             @auth
+
+                            <a href="{{url('/showcart',Auth::user()->id)}}">
+
+                            Cart{{$count}}
+
+</a>
+
+                            @endauth
+
+                            @guest
+
+                            Cart[0]
+
+                            @endguest
+
+                            </a></li>
+
+
                             @if (Route::has('login'))
                 <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
                     @auth
