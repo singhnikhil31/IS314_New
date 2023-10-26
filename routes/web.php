@@ -51,6 +51,11 @@ Route::get("/redirects",[HomeController::class,"redirects"]);
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 
+Route::get('/helppage', function () {
+    return view('helppage');
+});
+
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
